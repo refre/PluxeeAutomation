@@ -156,7 +156,7 @@ MIT
 
 ## Contributeurs
 
-Votre nom - [@votre-handle](https://github.com/refre07)
+Votre nom - [@JVK](https://github.com/refre07)
 
 ## Support
 
