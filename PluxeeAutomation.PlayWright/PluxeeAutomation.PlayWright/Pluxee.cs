@@ -149,9 +149,21 @@ public class Pluxee
             await _page.Locator("input[id$='orderline_units']").FillAsync("19");
             await _page.Locator("input[id$='orderline_faceValue']").FillAsync("10,00 €");
 
-            var nextMonth = DateTime.Now.AddMonths(1);
-            var firstDayOfNextMonth = new DateTime(nextMonth.Year, nextMonth.Month, 1);
-            var formattedDate = firstDayOfNextMonth.ToString("dd-MM-yyyy");
+            // Use custom date if provided, otherwise use first day of next month
+            DateTime dateToUse;
+            if (_settings.CustomDate.HasValue)
+            {
+                dateToUse = _settings.CustomDate.Value;
+                _logger.Information($"Utilisation de la date personnalisée : {dateToUse:dd-MM-yyyy}");
+            }
+            else
+            {
+                var nextMonth = DateTime.Now.AddMonths(1);
+                dateToUse = new DateTime(nextMonth.Year, nextMonth.Month, 1);
+                _logger.Information($"Utilisation de la date par défaut : {dateToUse:dd-MM-yyyy}");
+            }
+
+            var formattedDate = dateToUse.ToString("dd-MM-yyyy");
 
             var dateInputLocator = _page.Locator("input[id$='orderline_validityStartDateInputDate']");
             if (await dateInputLocator.CountAsync() > 0)
